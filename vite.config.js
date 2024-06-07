@@ -7,10 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://tic-tac-toe-mitx.netlify.app',
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        target: 'https://tic-tac-toe-be-1e16.onrender.com'
       },
     },
   },

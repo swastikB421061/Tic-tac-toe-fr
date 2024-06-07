@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy":"https://tic-tac-toe-mitx.netlify.app",
+  "proxy":"https://tic-tac-toe-be-1e16.onrender.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

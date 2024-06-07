@@ -138,7 +138,10 @@ const App = () => {
     const { name, roomId } = result.value;
     setPlayerName(name);
 
-    const newSocket = io("https://tic-tac-toe-mitx.netlify.app", {
+    // const newSocket = io("http://localhost:3000", {
+    //   autoConnect:true
+    // });
+    const newSocket = io("https://tic-tac-toe-be-1e16.onrender.com", {
       autoConnect:true
     });
 
