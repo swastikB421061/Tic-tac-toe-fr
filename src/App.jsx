@@ -74,8 +74,6 @@ const App = () => {
     }
   }, [gameState]);
 
-
-  
   const takePlayerDetails = async () => {
     const result = await Swal.fire({
       title: "Enter your name and room ID",
@@ -104,7 +102,6 @@ const App = () => {
   socket?.on("RoomFull", () => {
     alert("cant join");
     playOnlineClick();
-    
   });
 
   socket?.on("playerMoveFromServer", (data) => {
@@ -138,16 +135,16 @@ const App = () => {
     if (!result.isConfirmed) {
       return;
     }
-    const {name,roomId}=result.value;
+    const { name, roomId } = result.value;
     setPlayerName(name);
 
-    const newSocket = io("https://tic-tac-toe-be-1e16.onrender.com", {
-      autoConnect: true,
+    const newSocket = io("https://tic-tac-toe-mitx.netlify.app", {
+      autoConnect:true
     });
 
     newSocket.emit("request_to_play", {
       playerName: name,
-      roomId:roomId
+      roomId: roomId,
     });
 
     setSocket(newSocket);
