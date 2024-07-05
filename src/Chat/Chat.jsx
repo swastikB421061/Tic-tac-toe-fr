@@ -38,18 +38,22 @@ const Chat = ({ socket }) => {
 
   window.setInterval(function() {
     var elem = document.getElementById('content');
-    elem.scrollTop = elem.scrollHeight;
+    if (elem) {
+      elem.scrollTop = elem.scrollHeight;
+    }
   }, 5000);
 
 
 var input = document.getElementById("myInput");
 
-input.addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("btn1").click();
-  }
-});
+if(input){
+  input.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      document.getElementById("btn1").click();
+    }
+  });
+}
 
   
 
