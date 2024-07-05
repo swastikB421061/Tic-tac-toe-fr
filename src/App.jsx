@@ -3,6 +3,7 @@ import "./App.css";
 import Square from "./Square/Square";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
+import Chat from "./Chat/Chat";
 
 const renderFrom = [
   [1, 2, 3],
@@ -20,6 +21,7 @@ const App = () => {
   const [playerName, setPlayerName] = useState("");
   const [opponentName, setOpponentName] = useState(null);
   const [playingAs, setPlayingAs] = useState(null);
+  const [wait, setWait] = useState(false);
 
   const checkWinner = () => {
     // row dynamic
@@ -77,9 +79,16 @@ const App = () => {
   const takePlayerDetails = async () => {
     const result = await Swal.fire({
       title: "Enter your name and room ID",
+
       html: `
-        <input id="swal-input1" class="swal2-input" placeholder="Your Name">
-        <input id="swal-input2" class="swal2-input" placeholder="Room ID">
+      <style>
+           .swal2-input {
+                    width: 15rem;
+                    padding:0px;
+                }
+        </style>
+        <input id="swal-input1" class="swal2-input" placeholder="Name">
+        <input id="swal-input2" class="swal2-input" placeholder="ID">
       `,
       showCancelButton: true,
       preConfirm: () => {
@@ -100,8 +109,9 @@ const App = () => {
     setFinishetState("opponentLeftMatch");
   });
   socket?.on("RoomFull", () => {
-    alert("cant join");
-    playOnlineClick();
+    
+location.reload();
+
   });
 
   socket?.on("playerMoveFromServer", (data) => {
@@ -129,7 +139,11 @@ const App = () => {
     setOpponentName(data.opponentName);
   });
 
+
+  
+
   async function playOnlineClick() {
+    setWait(true);
     const result = await takePlayerDetails();
     console.log(result);
     if (!result.isConfirmed) {
@@ -139,7 +153,7 @@ const App = () => {
     setPlayerName(name);
 
     // const newSocket = io("http://localhost:3000", {
-    //   autoConnect:true
+    //   autoConnect: true,
     // });
     const newSocket = io("https://tic-tac-toe-be-1e16.onrender.com", {
       autoConnect:true
@@ -149,8 +163,15 @@ const App = () => {
       playerName: name,
       roomId: roomId,
     });
-
+    Swal.fire({
+      position: "center",
+      icon: "info",
+      title: "use larger screen to chat with opponent",
+      showConfirmButton: false,
+      timer: 2500
+    });
     setSocket(newSocket);
+    setWait(false);
   }
 
   if (!playOnline) {
@@ -163,7 +184,7 @@ const App = () => {
     );
   }
 
-  if (playOnline && !opponentName) {
+  if ((playOnline && !opponentName) || wait) {
     return (
       <div className="waiting">
         <span className="loader"></span>
@@ -173,67 +194,77 @@ const App = () => {
   }
 
   return (
-    <div className="main-div">
-      <div className="move-detection">
-        <div
-          className={`left ${
-            currentPlayer === playingAs ? "current-move-" + currentPlayer : ""
-          }`}
-        >
-          {playerName}
-        </div>
-        <div
-          className={`right ${
-            currentPlayer !== playingAs ? "current-move-" + currentPlayer : ""
-          }`}
-        >
-          {opponentName}
-        </div>
+    <div className="full">
+    <div className="top"></div>
+    <div className="main">
+      
+      <div className="chat-comp">
+        <Chat socket={socket}/>
       </div>
-      <div>
-        <h1 className="game-heading water-background">Tic Tac Toe</h1>
-        <div className="square-wrapper">
-          {gameState.map((arr, rowIndex) =>
-            arr.map((e, colIndex) => {
-              return (
-                <Square
-                  socket={socket}
-                  playingAs={playingAs}
-                  gameState={gameState}
-                  finishedArrayState={finishedArrayState}
-                  finishedState={finishedState}
-                  currentPlayer={currentPlayer}
-                  setCurrentPlayer={setCurrentPlayer}
-                  setGameState={setGameState}
-                  id={rowIndex * 3 + colIndex}
-                  key={rowIndex * 3 + colIndex}
-                  currentElement={e}
-                />
-              );
-            })
-          )}
+      <div className="main-div">
+        <div className="move-detection">
+          <div
+            className={`left ${
+              currentPlayer === playingAs ? "current-move-" + currentPlayer : ""
+            }`}
+          >
+            {playerName}
+          </div>
+          <div
+            className={`right ${
+              currentPlayer !== playingAs ? "current-move-" + currentPlayer : ""
+            }`}
+          >
+            {opponentName}
+          </div>
         </div>
-        {finishedState &&
-          finishedState !== "opponentLeftMatch" &&
-          finishedState !== "draw" && (
-            <h3 className="finished-state">
-              {finishedState === playingAs ? "You " : finishedState} won the
-              game
-            </h3>
-          )}
-        {finishedState &&
-          finishedState !== "opponentLeftMatch" &&
-          finishedState === "draw" && (
-            <h3 className="finished-state">It's a Draw</h3>
-          )}
+        <div>
+          <h1 className="game-heading water-background">Tic Tac Toe</h1>
+          <div className="square-wrapper">
+            {gameState.map((arr, rowIndex) =>
+              arr.map((e, colIndex) => {
+                return (
+                  <Square
+                    socket={socket}
+                    playingAs={playingAs}
+                    gameState={gameState}
+                    finishedArrayState={finishedArrayState}
+                    finishedState={finishedState}
+                    currentPlayer={currentPlayer}
+                    setCurrentPlayer={setCurrentPlayer}
+                    setGameState={setGameState}
+                    id={rowIndex * 3 + colIndex}
+                    key={rowIndex * 3 + colIndex}
+                    currentElement={e}
+                  />
+                );
+              })
+            )}
+          </div>
+          {finishedState &&
+            finishedState !== "opponentLeftMatch" &&
+            finishedState !== "draw" && (
+              <h3 className="finished-state">
+                {finishedState === playingAs ? "You " : finishedState} won the
+                game
+              </h3>
+            )}
+          {finishedState &&
+            finishedState !== "opponentLeftMatch" &&
+            finishedState === "draw" && (
+              <h3 className="finished-state">It's a Draw</h3>
+            )}
+        </div>
+        {!finishedState && opponentName && (
+          <h2>You are playing against {opponentName}</h2>
+        )}
+        {finishedState && finishedState === "opponentLeftMatch" && (
+          <h2>Opponent has left</h2>
+        )}
       </div>
-      {!finishedState && opponentName && (
-        <h2>You are playing against {opponentName}</h2>
-      )}
-      {finishedState && finishedState === "opponentLeftMatch" && (
-        <h2>Opponent has left</h2>
-      )}
     </div>
+    </div>
+    
   );
 };
 

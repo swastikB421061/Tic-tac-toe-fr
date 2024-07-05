@@ -1,13 +1,53 @@
+.full{
+  height: 100%;
+  border: 2px solid rgba(0,0,0,0);
+
+}
+.top{
+  margin: -4px;
+
+  padding: 0;
+  position: fixed;
+  background-color: rgb(67,128,218);
+  height: 3rem;
+  width: 100%;
+}
+.main {
+  margin: 10vh auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chat-comp {
+  margin: auto 8vw;
+  width: 50%;
+
+}
 .main-div {
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5vh;
   flex-direction: column;
+}
+@media screen {
+   .main-div{
+    width: 100%;
 
+   }
 }
 
-h2{
+@media (max-width: 688px) {
+
+  .chat-comp {
+    display: none;
+  }
+}
+
+h2 {
   margin-top: 5rem;
 }
 
@@ -15,13 +55,17 @@ h2{
   font-weight: 700;
   color: aliceblue;
   border: none;
-  background-color: rgba(0.5,0.5,0.5,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   font-size: 50px;
   cursor: pointer;
   margin-top: 40vh;
   padding: 15px;
   border-radius: 10px;
   outline: none;
+}
+.playOnline:hover {
+  color: rgb(38, 50, 60);
+  background-color: rgba(0.5, 0.5, 0.5, 0.3);
 }
 
 /* .water-background {
@@ -61,7 +105,7 @@ h2{
   background-color: red;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
-  background-color: #ffffff;
+  background-color: #de2929;
   border-top-right-radius: 50px;
   border-top-left-radius: 50px;
   padding-top: 7px;
@@ -72,13 +116,13 @@ h2{
 
 .waiting {
   overflow: hidden;
+  color: #ffffff;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   position: absolute;
-  font-size: 44px;
-  gap: 10px;
-  top: 0;
+  font-size: 1.2rem;
+  top: 40%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -87,27 +131,27 @@ h2{
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #FFF;
+  border: 5px solid #fff;
   border-bottom-color: #3e97f7;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  }
+}
 
-  @keyframes rotation {
+@keyframes rotation {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  } 
+}
 
 .current-move-cross {
   background-color: #38a2ee !important;
 }
 
 .current-move-circle {
-  background-color: #3e97f7!important;
+  background-color: #3e97f7 !important;
 }

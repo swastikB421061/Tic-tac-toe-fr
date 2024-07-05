@@ -2,9 +2,10 @@
 
 body {
   background: url("../src/assets/bg1.png") no-repeat center center fixed;
+  background: rgb(34,37,43);
+  margin: 0;
+  padding: 0;
   
-  height: 100%;
-  overflow: hidden;
-  color: rgb(23, 36, 44);
+  color: rgb(255, 255, 255);
   font-family: "Poppins", sans-serif;
 }
