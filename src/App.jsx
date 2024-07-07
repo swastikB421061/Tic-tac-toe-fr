@@ -157,12 +157,12 @@ const App = () => {
     const { name, roomId } = result.value;
     setPlayerName(name);
 
-    const newSocket = io("http://localhost:3000", {
-      autoConnect: true,
-    });
-    // const newSocket = io("https://tic-tac-toe-be-1e16.onrender.com", {
-    //   autoConnect:true
+    // const newSocket = io("http://localhost:3000", {
+    //   autoConnect: true,
     // });
+    const newSocket = io("https://tic-tac-toe-be-1e16.onrender.com", {
+      autoConnect:true
+    });
 
     newSocket.emit("request_to_play", {
       playerName: name,
