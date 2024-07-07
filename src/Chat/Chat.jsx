@@ -36,12 +36,12 @@ const Chat = ({ socket }) => {
     settext("");
   };
 
-  window.setInterval(function() {
+  
     var elem = document.getElementById('content');
     if (elem) {
       elem.scrollTop = elem.scrollHeight;
     }
-  }, 5000);
+  
 
 
 var input = document.getElementById("myInput");
